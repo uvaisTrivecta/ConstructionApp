@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Attendence Tracker</title>
+	<h:outputStylesheet library="css" name="style.css"  />
+</h:head>
+<h:body>
+	 <p:layout fullPage="true" resizeTitle="resize" style="background-color:#FFFFFF;" >
+        <p:layoutUnit position="north" id="north" size="60px">
+            <ui:include src="/templates/header.xhtml" />
+        </p:layoutUnit>
+
+        <p:layoutUnit position="west" id="west" resizable="false" size="225">
+            <ui:include src="/templates/menu.xhtml" />
+        </p:layoutUnit>
+
+        <p:layoutUnit styleClass="layoutUnitCenter" position="center" resizable="true">         		                
+                <ui:insert name="content" />           
+        </p:layoutUnit>
+        <p:layoutUnit position="east" size="0" style="width:0px; display:none;" id="east">
+        </p:layoutUnit>
+
+        <p:layoutUnit position="south"  resizable="false" id="south" >
+           	<ui:include src="/templates/footer.xhtml" />           
+        </p:layoutUnit>
+    </p:layout>
+
+</h:body>
+</html>

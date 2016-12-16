@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:form>  
+    <p:menu style="background:#0066b3;color:white">
+        <p:submenu label="Resource" rendered="#{menuRender.resourceRendered}" style="background:#0066b3;color:white">
+            <p:menuitem value="Create" action="/labour/create" style="color:white"/>
+            <p:menuitem value="Search" action="#{menu.searchLabour}" style="color:white"/>
+        </p:submenu>
+        <p:submenu label="Attendance" rendered="#{menuRender.attendanceRendered}" style="background:#0066b3;color:white">
+            <p:menuitem value="Make Entry" action="#{menu.makeAttendence}" style="color:white"/>
+            <p:menuitem value="Attendance Report" action="#{menu.attendenceReport}" style="color:white"/>
+        </p:submenu>        
+    </p:menu>
+ </h:form>
+</html>

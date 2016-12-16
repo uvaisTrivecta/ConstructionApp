@@ -1,0 +1,191 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template.xhtml">
+    <ui:define name="content">    	
+    	<h:form  enctype = "multipart/form-data">
+    		<p:messages autoUpdate="true" id="msgs" showDetail="true" showSummary="true" />
+			<p:fieldset legend="Personal Information" toggleable="true" toggleSpeed="500" styleClass="backgroundPanel">
+				<h:panelGrid columns="4" border="0">
+					<p:outputLabel value="First Name:"  for="firstName" />
+					<p:inputText id = "firstName" value="#{labourCreate.labourVO.firstName}" required="true" />
+					<p:outputLabel value="Last Name:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.lastName}" />
+					<p:outputLabel value="Nick Name:" for = "nickName"/>
+					<p:inputText id="nickName" value="#{labourCreate.labourVO.nickName}" required="true" />	
+					<p:outputLabel value="Mobile No:" for="mobNo" />
+					<p:inputText id="mobNo" value="#{labourCreate.labourVO.mobNo}" required="true" />	
+					<p:outputLabel value="Date Of Birth:"></p:outputLabel>
+					<p:calendar value="#{labourCreate.labourVO.dob}" required="true"></p:calendar>	
+					<p:outputLabel value="Blood Group:" for= "bloodGroup"  />
+					<p:selectOneMenu id="bloodGroup" value="#{labourCreate.labourVO.bloodGroup}" required="true">
+						<f:selectItem itemLabel="A+" itemValue="A+" />
+            			<f:selectItem itemLabel="A-" itemValue="A-" />
+            			<f:selectItem itemLabel="B+" itemValue="B+" />
+            			<f:selectItem itemLabel="B-" itemValue="B-" />
+            			<f:selectItem itemLabel="O+" itemValue="O+" />
+            			<f:selectItem itemLabel="O-" itemValue="O-" />
+            			<f:selectItem itemLabel="AB+" itemValue="AB+" />
+            			<f:selectItem itemLabel="AB-" itemValue="AB-" />
+					</p:selectOneMenu>
+					<p:outputLabel value="PF No:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.pfNo}" />	
+					<p:outputLabel value="ESI No:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.esiNo}" />					
+					<p:outputLabel value="Known Health Issues:" ></p:outputLabel>
+					<p:row >
+						<p:inputTextarea cols="3" value="#{labourCreate.labourVO.knownHealthIssues}"></p:inputTextarea>
+					</p:row>									
+				</h:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Profession" toggleable="true" toggleSpeed="500">
+				<h:panelGrid columns="4" border="0">
+					<p:outputLabel value="Skills:"></p:outputLabel>
+					<p:selectManyMenu value="#{labourCreate.labourVO.skills}" >
+						<f:selectItems value="#{labourCreate.skillVOs}"/>
+					</p:selectManyMenu>
+					<p:outputLabel value="SubContractors:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.subContractId}">
+						<f:selectItems value="#{labourCreate.subContractVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Project:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.projectId}">
+						<p:ajax listener="#{labourCreate.getSubProjectByProjectId}" update="subProjCreate" />
+						<f:selectItems value="#{labourCreate.projectVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="SubProject:"></p:outputLabel>
+					<p:selectOneMenu id="subProjCreate" value="#{labourCreate.labourVO.subProjectId}">
+						<f:selectItems value="#{labourCreate.subProjectVOs}"/>
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Address" toggleable="true" toggleSpeed="500">
+				<p:outputLabel value="Permanent Address"></p:outputLabel>
+				<h:panelGrid columns="4" border="0">
+					<p:outputLabel value="Address Line 1:" for="pAddress1" />
+					<p:inputText id= "pAddress1" value="#{labourCreate.labourVO.permanentAddress.addressLine1}" required="true" />
+					<p:outputLabel value="Address Line 2:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.permanentAddress.addressLine2}" />
+					<p:outputLabel value="City:" for="pcity" />
+					<p:selectOneMenu id="pcity" value="#{labourCreate.labourVO.permanentAddress.cityId}" required="true">
+						<f:selectItems value="#{labourCreate.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:" for = "pstate"/>
+					<p:selectOneMenu id="pstate" value="#{labourCreate.labourVO.permanentAddress.stateId}" required="true">
+						<f:selectItems value="#{labourCreate.stateVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Postal Code:" for="pPostalCode"/>
+					<p:inputText id="pPostalCode" value="#{labourCreate.labourVO.permanentAddress.postalCode}" required="true"></p:inputText>	
+				</h:panelGrid>
+				<p:outputLabel value="Current Address"></p:outputLabel>
+				<br></br>
+				<p:selectBooleanCheckbox itemLabel="Same as Permanent Address" value="#{labourCreate.labourVO.currentSame}" >
+					<p:ajax update="currentAddressGrid" listener="#{labourCreate.updateCurrentAddress}" />
+				</p:selectBooleanCheckbox>
+				<h:panelGrid border="0" columns="4" id="currentAddressGrid">
+					<p:outputLabel value="Address Line 1:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.currentAddress.addressLine1}" 
+						disabled="#{labourCreate.currentAddressDisable}" />
+					<p:outputLabel value="Address Line 2:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.currentAddress.addressLine2}"
+						disabled="#{labourCreate.currentAddressDisable}" />
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.currentAddress.cityId}" disabled="#{labourCreate.currentAddressDisable}" >
+						<f:selectItems value="#{labourCreate.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.currentAddress.stateId}" disabled="#{labourCreate.currentAddressDisable}" >
+						<f:selectItems value="#{labourCreate.stateVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Postal Code:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.currentAddress.postalCode}" disabled="#{labourCreate.currentAddressDisable}" />	
+				</h:panelGrid>				
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Govt Identity Information" toggleable="true" toggleSpeed="500">
+				<h:panelGrid border="0" columns="4">
+					<p:outputLabel value="Aadhar No:" for="aadharNo"/>
+					<p:inputText id="aadharNo" value="#{labourCreate.labourVO.aadharNo}" required="true"></p:inputText>
+					<p:outputLabel value="Voter Id:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.voterId}"></p:inputText>
+					<p:outputLabel value="Driving License:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.drivingLicencseNo}"></p:inputText>	
+					<p:outputLabel value="PAN No:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.panNo}"></p:inputText>				
+				</h:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Bank Info" toggleable="true" toggleSpeed="500">
+				<h:panelGrid border="0" columns="4" layout="grid">
+					<p:outputLabel value="Account No:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.bankAccNo}"></p:inputText>
+					<p:outputLabel value="IFSC Code:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.ifscCode}"></p:inputText>
+					<p:outputLabel value="Bank Name:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.bankName}"></p:inputText>					
+					<p:outputLabel value="Branch Name:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.branch}"></p:inputText>	
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.bankCityId}">
+						<f:selectItems value="#{labourCreate.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.bankStateId}">
+						<f:selectItems value="#{labourCreate.stateVOs}"/>
+					</p:selectOneMenu>			
+				</h:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Emergency Contact" toggleable="true" toggleSpeed="500">
+				<h:panelGrid border="0" columns="4" id="emergencyContactGrid">
+					<p:outputLabel value="Name:" for="emergencyContactName" />
+					<p:inputText id="emergencyContactName" value="#{labourCreate.labourVO.emergencyContactName}" required="true"></p:inputText>
+					<p:outputLabel value="Mobile No:" for="emergencyContactNo" />
+					<p:inputText id="emergencyContactNo" value="#{labourCreate.labourVO.emergencyContactNo}" required="true"></p:inputText>
+				</h:panelGrid>
+				<br></br>
+				<p:selectBooleanCheckbox itemLabel="Same as Permanent Address" value="#{labourCreate.labourVO.emergencySame}" >
+					<p:ajax update="emergencyAddressGrid" listener="#{labourCreate.updateEmergency}" />
+				</p:selectBooleanCheckbox>
+				<br></br>
+				<h:panelGrid border="0" columns="4" id="emergencyAddressGrid" >
+					<p:outputLabel value="Address Line 1:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.emergencyContactAddress.addressLine1}" 
+						disabled="#{labourCreate.emergencyAddressDisable}" />
+					<p:outputLabel value="Address Line 2:"></p:outputLabel>
+					<p:inputText value="#{labourCreate.labourVO.emergencyContactAddress.addressLine2}"
+						disabled="#{labourCreate.emergencyAddressDisable}" />
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.emergencyContactAddress.cityId}" 
+						disabled="#{labourCreate.emergencyAddressDisable}" >
+						<f:selectItems value="#{labourCreate.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourCreate.labourVO.emergencyContactAddress.stateId}"
+						disabled="#{labourCreate.emergencyAddressDisable}" >
+						<f:selectItems value="#{labourCreate.stateVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Postal Code:" />
+					<p:inputText value="#{labourCreate.labourVO.emergencyContactAddress.postalCode}"
+						disabled="#{labourCreate.emergencyAddressDisable}" />	
+				</h:panelGrid>
+			</p:fieldset>	
+			<br></br>	
+			<p:fieldset>
+				<p:panel >
+					<h:panelGrid border="0" columns="2">
+						<p:fileUpload mode="simple" skinSimple="true" 
+							allowTypes="*.jpg;*.png;" value="#{labourCreate.file}"/>	
+					</h:panelGrid>
+				</p:panel>
+			</p:fieldset>
+			<h:inputHidden value="#{labourCreate.labourVO.id}"/>	
+			<p:commandButton value="Register" update="msgs" action="#{labourCreate.save}" ajax="false"></p:commandButton>
+		</h:form>   
+    </ui:define>
+    
+</ui:composition>

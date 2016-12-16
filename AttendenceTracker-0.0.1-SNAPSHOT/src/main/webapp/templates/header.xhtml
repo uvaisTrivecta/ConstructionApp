@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">	
+	<body>
+		<ui:composition>
+			<div class="bar">			
+			</div>
+			<br/>
+			<table width="100%">
+				<tr>
+					<td width="75%">
+						<img id="logo" src="../resources/images/logo.png" align="left" /> 
+					</td>
+					<td width="25%" align="right">
+						<label >Welcome 
+	         				<span id="user_name" class="top"><h:outputText value="#{userLogin.userName}"/></span>
+	         			</label>
+	         			<p:spacer />					
+						<a href="../faces/login.xhtml" >
+							<img src="../resources/images/logout.jpg" align="right"/> 
+						</a>
+					</td>
+				</tr>			
+			</table>			
+		</ui:composition>
+	</body>
+</html>

@@ -1,0 +1,183 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template.xhtml">
+    <ui:define name="content">
+    	<h:form  enctype = "multipart/form-data">
+    		<p:messages autoUpdate="true" id="msgs" showDetail="true" showSummary="true" />
+			<p:fieldset legend="Personal Information" toggleable="true" toggleSpeed="500">
+				<p:panelGrid columns="4" >
+					<p:outputLabel value="First Name:" for="firstName" />
+					<p:inputText id = "firstName" value="#{labourViewEdit.labourVO.firstName}" required="true"></p:inputText>
+					<p:outputLabel value="Last Name:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.lastName}"></p:inputText>
+					<p:outputLabel value="Nick Name:" for = "nickName" />
+					<p:inputText id="nickName" value="#{labourViewEdit.labourVO.nickName}" required="true"></p:inputText>	
+					<p:outputLabel value="Mobile No:" />
+					<p:inputText value="#{labourViewEdit.labourVO.mobNo}" disabled="true"></p:inputText>	
+					<p:outputLabel value="Date Of Birth:" for="dob" />
+					<p:calendar id="dob" value="#{labourViewEdit.labourVO.dob}" required="true"></p:calendar>	
+					<p:outputLabel value="Blood Group:" for= "bloodGroup" />
+					<p:selectOneMenu id="bloodGroup" value="#{labourViewEdit.labourVO.bloodGroup}" required="true">
+						<f:selectItem itemLabel="A+" itemValue="A+" />
+            			<f:selectItem itemLabel="A-" itemValue="A-" />
+            			<f:selectItem itemLabel="B+" itemValue="B+" />
+            			<f:selectItem itemLabel="B-" itemValue="B-" />
+            			<f:selectItem itemLabel="O+" itemValue="O+" />
+            			<f:selectItem itemLabel="O-" itemValue="O-" />
+            			<f:selectItem itemLabel="AB+" itemValue="AB+" />
+            			<f:selectItem itemLabel="AB-" itemValue="AB-" />
+					</p:selectOneMenu>
+					<p:outputLabel value="PF No:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.pfNo}"></p:inputText>	
+					<p:outputLabel value="ESI No:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.esiNo}"></p:inputText>					
+					<p:outputLabel value="Known Health Issues:" ></p:outputLabel>
+					<p:column colspan="3">
+						<p:inputTextarea cols="3" value="#{labourViewEdit.labourVO.knownHealthIssues}"></p:inputTextarea>
+					</p:column>										
+				</p:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Skills/Subcontractors" toggleable="true" toggleSpeed="500">
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Skills:"></p:outputLabel>
+					<p:selectManyMenu value="#{labourViewEdit.labourVO.skills}" >
+						<f:selectItems value="#{labourViewEdit.skillVOs}"/>
+					</p:selectManyMenu>
+					<p:outputLabel value="SubContractors:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.subContractId}">
+						<f:selectItems value="#{labourViewEdit.subContractVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Project:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.projectId}">
+						<p:ajax listener="#{labourViewEdit.getSubProjectByProjectId}" update="subProjUpdate" />
+						<f:selectItems value="#{labourViewEdit.projectVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="SubProject:"></p:outputLabel>
+					<p:selectOneMenu id="subProjUpdate" value="#{labourViewEdit.labourVO.subProjectId}">
+						<f:selectItems value="#{labourViewEdit.subProjectVOs}"/>
+					</p:selectOneMenu>
+				</p:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Address" toggleable="true" toggleSpeed="500">
+				<p:outputLabel value="Permanent Address"></p:outputLabel>
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Address Line 1:" for="pAddress1" />
+					<p:inputText id="pAddress1" value="#{labourViewEdit.labourVO.permanentAddress.addressLine1}" required="true"></p:inputText>
+					<p:outputLabel value="Address Line 2:" />
+					<p:inputText value="#{labourViewEdit.labourVO.permanentAddress.addressLine2}"></p:inputText>
+					<p:outputLabel value="City:" for="pcity" />
+					<p:selectOneMenu id="pcity" value="#{labourViewEdit.labourVO.permanentAddress.cityId}" required="true">
+						<f:selectItems value="#{labourViewEdit.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:" for = "pstate"/>
+					<p:selectOneMenu id="pstate" value="#{labourViewEdit.labourVO.permanentAddress.stateId}" required="true">
+						<f:selectItems value="#{labourViewEdit.stateVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Postal Code:" for="pPostalCode"/>
+					<p:inputText id="pPostalCode" value="#{labourViewEdit.labourVO.permanentAddress.postalCode}" required="true"></p:inputText>	
+				</p:panelGrid>
+				<p:outputLabel value="Current Address"></p:outputLabel>
+				<br></br>
+				<p:selectBooleanCheckbox itemLabel="Same as Permanent Address" value="#{labourViewEdit.labourVO.currentSame}" >
+					<p:ajax update="currentAddressGrid" listener="#{labourViewEdit.updateCurrentAddress}" />
+				</p:selectBooleanCheckbox>
+				<p:panelGrid columns="4" id="currentAddressGrid">
+					<p:outputLabel value="Address Line 1:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.currentAddress.addressLine1}" disabled="#{labourViewEdit.currentAddressDisable}" />
+					<p:outputLabel value="Address Line 2:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.currentAddress.addressLine2}" disabled="#{labourViewEdit.currentAddressDisable}"/>
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.currentAddress.cityId}" disabled="#{labourViewEdit.currentAddressDisable}">
+						<f:selectItems value="#{labourViewEdit.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.currentAddress.stateId}" disabled="#{labourViewEdit.currentAddressDisable}">
+						<f:selectItems value="#{labourViewEdit.stateVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Postal Code:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.currentAddress.postalCode}" disabled="#{labourViewEdit.currentAddressDisable}" />	
+				</p:panelGrid>				
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Govt Identity Information" toggleable="true" toggleSpeed="500">
+				<p:panelGrid columns="4">
+					<p:outputLabel value="Aadhar No:" for="aadharNo" />
+					<p:inputText id="aadharNo" value="#{labourViewEdit.labourVO.aadharNo}" required="true"></p:inputText>
+					<p:outputLabel value="Voter Id:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.voterId}"></p:inputText>
+					<p:outputLabel value="Driving License:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.drivingLicencseNo}"></p:inputText>	
+					<p:outputLabel value="PAN No:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.panNo}"></p:inputText>				
+				</p:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Bank Info" toggleable="true" toggleSpeed="500">
+				<p:panelGrid columns="4" layout="grid">
+					<p:outputLabel value="Account No:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.bankAccNo}"></p:inputText>
+					<p:outputLabel value="IFSC Code:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.ifscCode}"></p:inputText>
+					<p:outputLabel value="Bank Name:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.bankName}"></p:inputText>					
+					<p:outputLabel value="Branch Name:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.branch}"></p:inputText>	
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.bankCityId}">
+						<f:selectItems value="#{labourViewEdit.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.bankStateId}">
+						<f:selectItems value="#{labourViewEdit.stateVOs}"/>
+					</p:selectOneMenu>			
+				</p:panelGrid>
+			</p:fieldset>
+			<br></br><br></br>
+			<p:fieldset legend="Emergency Contact" toggleable="true" toggleSpeed="500">
+				<p:panelGrid columns="4" id="emergencyContactGrid">
+					<p:outputLabel value="Name:" for="emergencyContactName" />
+					<p:inputText id="emergencyContactName" value="#{labourViewEdit.labourVO.emergencyContactName}" required="true"></p:inputText>
+					<p:outputLabel value="Mobile No:" for="emergencyContactNo" />
+					<p:inputText id="emergencyContactNo" value="#{labourViewEdit.labourVO.emergencyContactNo}" required="true"></p:inputText>
+				</p:panelGrid>
+				<br></br>
+				<p:selectBooleanCheckbox itemLabel="Same as Permanent Address" value="#{labourViewEdit.labourVO.emergencySame}">
+					<p:ajax update="emergencyAddressGrid" listener="#{labourViewEdit.updateEmergency}" />
+				</p:selectBooleanCheckbox>
+				<br></br>
+				<p:panelGrid columns="4" id="emergencyAddressGrid">
+					<p:outputLabel value="Address Line 1:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.emergencyContactAddress.addressLine1}" disabled="#{labourViewEdit.emergencyAddressDisable}"  />
+					<p:outputLabel value="Address Line 2:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.emergencyContactAddress.addressLine2}" disabled="#{labourViewEdit.emergencyAddressDisable}"/>
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.emergencyContactAddress.cityId}" disabled="#{labourViewEdit.emergencyAddressDisable}">
+						<f:selectItems value="#{labourViewEdit.cityVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="State:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourViewEdit.labourVO.emergencyContactAddress.stateId}" disabled="#{labourViewEdit.emergencyAddressDisable}">
+						<f:selectItems value="#{labourViewEdit.stateVOs}"/>
+					</p:selectOneMenu>
+					<p:outputLabel value="Postal Code:"></p:outputLabel>
+					<p:inputText value="#{labourViewEdit.labourVO.emergencyContactAddress.postalCode}" disabled="#{labourViewEdit.emergencyAddressDisable}"/> 	
+				</p:panelGrid>
+			</p:fieldset>	
+			<br></br>	
+			<p:fieldset>
+				<p:panel >
+					<p:panelGrid columns="2">
+						<p:fileUpload mode="simple" skinSimple="true" 
+							allowTypes="*.jpg;*.png;" value="#{labourViewEdit.file}"/>	
+					</p:panelGrid>
+				</p:panel>
+			</p:fieldset>
+			<h:inputHidden value="#{labourViewEdit.labourVO.id}"/>	
+			<p:commandButton value="Update" update="msgs" action="#{labourViewEdit.save}"></p:commandButton>
+		</h:form>   
+    </ui:define>
+</ui:composition>

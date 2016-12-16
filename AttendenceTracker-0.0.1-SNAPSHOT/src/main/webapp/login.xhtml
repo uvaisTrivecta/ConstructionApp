@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	>
+	<h:head>
+		
+	</h:head>
+	<h:body>
+		<h:form>
+		<p:growl id="growl" sticky="true" showDetail="true" />
+		<p:panel header="Login">
+			<h:panelGrid columns="2" cellpadding="5" >
+				<h:outputLabel for="username" value="Username:" />
+				<p:inputText id="username" value="#{userLogin.userName}"
+							required="true" label="User Name" />
+	
+				<h:outputLabel for="password" value="Password:" />
+				<p:password id="password" value="#{userLogin.psswd}"
+							required="true" label="Password" />
+	
+				<f:facet name="footer">
+					<p:commandButton value="Login" update="growl"
+								action="#{userLogin.login}"	 />
+				</f:facet>
+			</h:panelGrid>
+		</p:panel>
+		</h:form>
+		<script type="text/javascript">
+		    function handleLoginRequest(xhr, status, args) {
+		        if(args.validationFailed || !args.loggedIn) {
+		            PF('dlg').jq.effect("shake", {times:5}, 100);
+		        }
+		        else {
+		            PF('dlg').hide();
+		            $('#loginLink').fadeOut();
+		        }
+		    }
+		</script>
+	</h:body>
+</ui:composition>

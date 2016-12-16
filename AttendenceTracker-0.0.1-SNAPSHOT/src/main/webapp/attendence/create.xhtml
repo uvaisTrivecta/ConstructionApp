@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template.xhtml">
+    <ui:define name="title">
+    	<h3>Attendance</h3>
+    </ui:define>
+    <ui:define name="content">
+    	<h:form>
+	    	<p:panel id="attendenceEntryPanel">
+	    		<p:panelGrid  columns="2" >
+	    			<p:outputLabel value="Mobile Number:" />
+					<p:inputText value="#{attendenceEntry.mobNo}" />
+					<p:selectOneRadio value="#{attendenceEntry.inOut}">
+						<f:selectItem itemLabel="In" itemValue="0" />
+            			<f:selectItem itemLabel="Out" itemValue="1" />
+					</p:selectOneRadio>					
+					<f:facet name="footer" >
+						<p:commandButton value="Submit" update="attendenceEntryPanel,attendenceHistoryTbl"
+									action="#{attendenceEntry.makeAttendence}" />
+						<p:commandButton value="Search" update="attendenceEntryPanel,attendenceHistoryTbl"
+									action="#{attendenceEntry.searchAttendence}" />
+					</f:facet>
+	    		</p:panelGrid>	    		
+	    	</p:panel>	
+	    	<br/><br/>
+	    	<p:dataTable var="attendenceHistory" value = "#{attendenceEntry.attendenceTrackerVOList}" id="attendenceHistoryTbl">
+	    		
+	    		<p:column headerText="Mobile Number">
+			        <h:outputText value="#{attendenceHistory.mobNo}" />
+			    </p:column>
+			    <p:column headerText="In Date">
+			        <h:outputText value="#{attendenceHistory.startDateStr}" />
+			    </p:column>	
+			    <p:column headerText="In Time">
+			        <h:outputText value="#{attendenceHistory.inTime}" />
+			    </p:column>	
+			     <p:column headerText="Out Date">
+			        <h:outputText value="#{attendenceHistory.endDateStr}" />
+			    </p:column>	
+			    <p:column headerText="Out Time">
+			        <h:outputText value="#{attendenceHistory.outTime}" />
+			    </p:column>		
+	    	</p:dataTable>    	
+    	</h:form>
+	</ui:define>    
+ </ui:composition>

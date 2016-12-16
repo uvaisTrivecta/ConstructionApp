@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template.xhtml">
+    <ui:define name="title">
+    	<h3>Attendance Report</h3>
+    </ui:define>
+    <ui:define name="content">
+    	<h:form>
+	    	<p:panel>
+	    		<p:panelGrid  columns="4" >
+	    			<p:outputLabel value="Nick Name:"></p:outputLabel>
+					<p:inputText value="#{attendenceSearch.attendanceTrackerVO.nickName}" />
+					<p:outputLabel value="Mobile Number:"></p:outputLabel>
+					<p:inputText value="#{attendenceSearch.attendanceTrackerVO.mobNo}" />
+					<p:outputLabel value="Date:"></p:outputLabel>
+					<p:calendar value="#{attendenceSearch.attendanceTrackerVO.startDate}" />
+					<f:facet name="footer" >
+						<p:commandButton value="Search" update="attendenceSearchTbl"
+									action="#{attendenceSearch.search}" />
+					</f:facet>
+	    		</p:panelGrid>	    		
+	    	</p:panel>
+	    	<p:spacer></p:spacer>
+	    	<br/><br/>
+	    	
+	    	<h:commandLink>
+            	<p:graphicImage name="images/excelImage.jpg" width="20" />
+                <p:dataExporter type="xls" target="attendenceSearchTbl" fileName="Attendance Report" />
+            </h:commandLink>	    	
+	    	<p:dataTable var="labour" value = "#{attendenceSearch.attendenceTrackerList}" 
+	    		id = "attendenceSearchTbl" paginator="true" rows="10">	    		
+	    	   <p:column headerText="Labour Id">
+	    	   		<h:outputText value="#{labour.labourId}" />
+			    </p:column>			    
+	    		<p:column headerText="Nick Name">
+			        <h:outputText value="#{labour.nickName}" />
+			    </p:column>			 
+			    <p:column headerText="Mobile Number">
+			        <h:outputText value="#{labour.mobNo}" />
+			    </p:column>			 
+			    <p:column headerText="Start Date">
+			        <h:outputText value="#{labour.startDateStr}" />
+			    </p:column>				   		 
+			    <p:column headerText="In Time">
+			        <h:outputText value="#{labour.inTime}" />
+			    </p:column>
+			     <p:column headerText="End Date">
+			        <h:outputText value="#{labour.endDateStr}" />
+			    </p:column>	
+			    <p:column headerText="Out Time">
+			        <h:outputText value="#{labour.outTime}" />
+			    </p:column>
+	    	</p:dataTable>
+    	</h:form>
+	</ui:define>    
+ </ui:composition>

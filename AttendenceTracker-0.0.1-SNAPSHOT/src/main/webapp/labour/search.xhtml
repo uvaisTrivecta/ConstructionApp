@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/templates/template.xhtml">
+    <ui:define name="title">
+    	<h3>Search Labour</h3>
+    </ui:define>
+    <ui:define name="content">
+    	<h:form>
+	    	<p:panel>
+	    		<p:panelGrid  columns="4" >
+	    			<p:outputLabel value="Nick Name:"></p:outputLabel>
+					<p:inputText value="#{labourSearch.labourSearchVO.nickName}" />
+					<p:outputLabel value="Mobile Number:"></p:outputLabel>
+					<p:inputText value="#{labourSearch.labourSearchVO.mobNo}" />
+					<p:outputLabel value="Blood Group:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourSearch.labourSearchVO.bloodGroup}" >
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItem itemLabel="A+" itemValue="A+" />
+            			<f:selectItem itemLabel="A-" itemValue="A-" />
+            			<f:selectItem itemLabel="B+" itemValue="B+" />
+            			<f:selectItem itemLabel="B-" itemValue="B-" />
+            			<f:selectItem itemLabel="O+" itemValue="O+" />
+            			<f:selectItem itemLabel="O-" itemValue="O-" />
+            			<f:selectItem itemLabel="AB+" itemValue="AB+" />
+            			<f:selectItem itemLabel="AB-" itemValue="AB-" />
+					</p:selectOneMenu>	
+					<p:outputLabel value="City:"></p:outputLabel>
+					<p:selectOneMenu value="#{labourSearch.labourSearchVO.cityId}">
+						<f:selectItems value="#{labourCreate.cityVOs}"/>					
+					</p:selectOneMenu>	
+					<f:facet name="footer" >
+						<p:commandButton value="Search" update="labourSearchTbl"
+									action="#{labourSearch.searchLabour}" />
+					</f:facet>
+	    		</p:panelGrid>	    		
+	    	</p:panel>
+	    	<p:spacer></p:spacer>
+	    	<br/><br/>
+	    	<p:dataTable var="labour" value = "#{labourSearch.labourSearchVOList}" id = "labourSearchTbl" 	>
+	    	   <p:column headerText="Name">
+	    	   		<p:commandLink value="#{labour.name}" action="#{labourSearch.viewLabour}">
+	    	   			<f:setPropertyActionListener value="#{labour}" target="#{labourSearch.selectedLabourVO}"></f:setPropertyActionListener>
+	    	   		</p:commandLink>
+			    </p:column>			    
+	    		<p:column headerText="Nick Name">
+			        <p:commandLink value="#{labour.nickName}" action="#{labourSearch.viewLabour}">
+			        	<f:setPropertyActionListener value="#{labour}" target="#{labourSearch.selectedLabourVO}"></f:setPropertyActionListener>
+			        </p:commandLink>
+			    </p:column>			 
+			    <p:column headerText="Mobile Number">
+			        <h:outputText value="#{labour.mobNo}" />
+			    </p:column>			 
+			    <p:column headerText="Current Address">
+			        <h:outputText value="#{labour.address}" />
+			    </p:column>			    
+			    <p:column headerText="Emergency Contact">
+			        <h:outputText value="#{labour.emergencyContact}" />
+			    </p:column>			 
+			    <p:column headerText="Emergency Contact Number">
+			        <h:outputText value="#{labour.emergencyContactNo}" />
+			    </p:column>
+	    	</p:dataTable>
+    	</h:form>
+	</ui:define>    
+ </ui:composition>
