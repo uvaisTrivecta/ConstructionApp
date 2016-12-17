@@ -14,9 +14,10 @@
     			<p:commandButton value="Edit" update="msgs" action="#{labourViewEdit.editLabour}"  />
     		</p:panel>
     		<br/><br/>
-    		<p:scrollPanel style="height:70%;width:100%" mode="native">    		
-	    		<p:graphicImage name="#{labourViewEdit.profileImage}" />
-				<p:fieldset legend="Personal Information" toggleable="true" toggleSpeed="500">
+    		<p:scrollPanel style="height:70%;width:100%" mode="native">    				
+	    		<p:graphicImage value="#{labourViewEdit.profileImage}" cache="false" />
+	    		<br/><br/>
+	    		<p:fieldset legend="Personal Information" toggleable="true" toggleSpeed="500">
 					<p:panelGrid columns="4" >
 						<p:outputLabel value="First Name:"></p:outputLabel>
 							<p:outputLabel value="#{labourViewEdit.labourVO.firstName}" />
