@@ -12,10 +12,13 @@
     		<p:messages autoUpdate="true" id="msgs" showDetail="true" showSummary="true" />
     		<p:panel >
     			<p:commandButton value="Edit" update="msgs" action="#{labourViewEdit.editLabour}"  />
-    		</p:panel>
-    		<br/><br/>
-    		<p:scrollPanel style="height:70%;width:100%" mode="native">    				
-	    		<p:graphicImage value="#{labourViewEdit.profileImage}" cache="false" alt="No Image"/>
+    		</p:panel>    		
+    		<p:scrollPanel style="height:70%;width:100%" mode="native">   
+    			<br/><br/> 	
+    			<h:panelGroup >
+    				<p:spacer width="2%"/>
+    				<p:graphicImage value="#{labourViewEdit.profileImage}" cache="false" alt="No Image" height="40%"/>
+    			</h:panelGroup>			
 	    		<br/><br/>
 	    		<p:fieldset legend="Personal Information" toggleable="true" toggleSpeed="500">
 					<p:panelGrid columns="4" >
